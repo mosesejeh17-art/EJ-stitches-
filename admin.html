@@ -65,11 +65,12 @@ a{color:var(--acc)}
 </section>
 
 <section id="app" hidden>
-  <div class="top"><h1>Admin</h1><div><a href="index.html" class="small" style="margin-right:12px">View site</a><button class="sm" id="out" type="button">Log out</button></div></div>
+  <div class="top"><h1>Admin <span class="mute small">v3</span></h1><div><a href="index.html" class="small" style="margin-right:12px">View site</a><button class="sm" id="out" type="button">Log out</button></div></div>
   <div class="wrap">
     <div class="tabs" role="tablist">
       <button type="button" data-tab="add" class="on">Add design</button>
       <button type="button" data-tab="list">My designs</button>
+      <button type="button" data-tab="site">Website</button>
       <button type="button" data-tab="tools">Tools</button>
     </div>
 
@@ -83,7 +84,8 @@ a{color:var(--acc)}
       <label for="f-desc">Short description (optional)</label>
       <textarea id="f-desc" maxlength="200" placeholder="Example: Short sleeves and matching trousers"></textarea>
       <label for="f-sec">Where should it show?</label>
-      <select id="f-sec"><option value="style">Style ideas</option><option value="work">Our work</option><option value="vipcaps">VIP caps</option></select>
+      <select id="f-sec"><option value="style">Style ideas</option><option value="work">Our work</option><option value="vipcaps">VIP caps</option><option value="clients">Clients in our clothes</option></select>
+      <p class="mute small" id="f-cn" hidden>For client photos only the photo and the name are used. The name shows as the caption under the picture.</p>
       <label for="f-cat">Type</label>
       <select id="f-cat"><option value="native wear">Native wear</option><option value="ankara">Ankara</option><option value="casual">Casual</option><option value="streetwear">Streetwear</option><option value="vip cap">VIP cap</option></select>
       <label for="f-price">Price in naira (optional)</label>
@@ -96,7 +98,7 @@ a{color:var(--acc)}
     <div id="tab-list" hidden>
       <h2>My designs</h2>
       <div class="filters">
-        <select id="l-sec"><option value="">All sections</option><option value="work">Our work</option><option value="style">Style ideas</option><option value="vipcaps">VIP caps</option></select>
+        <select id="l-sec"><option value="">All sections</option><option value="work">Our work</option><option value="style">Style ideas</option><option value="vipcaps">VIP caps</option><option value="clients">Clients in our clothes</option></select>
         <input id="l-q" type="search" placeholder="Search by name">
       </div>
       <p class="mute small" id="l-count"></p>
@@ -104,12 +106,53 @@ a{color:var(--acc)}
       <div class="msg" id="lmsg" hidden></div>
     </div>
 
+    <div id="tab-site" hidden>
+      <div class="msg err" id="s-missing" hidden>This part needs one more setup step in Supabase. Open <b>SQL Editor</b>, paste the second setup file (<b>supabase-settings.sql</b>), tap <b>Run</b>, then come back and open this tab again.</div>
+      <div id="s-body" hidden>
+        <h2>Website look</h2>
+        <p class="mute">These apply to everyone who visits your website. Visitors can no longer change them.</p>
+        <label for="s-theme">Mode</label>
+        <select id="s-theme"><option value="dark">Dark</option><option value="light">Light (day)</option></select>
+        <label for="s-ts">Text size</label>
+        <select id="s-ts"><option value="small">Small</option><option value="normal">Normal</option><option value="large">Large</option></select>
+        <label for="s-an">Animations</label>
+        <select id="s-an"><option value="on">On</option><option value="off">Off</option></select>
+        <label for="s-lay">Layout</label>
+        <select id="s-lay"><option value="scroll">Scroll (one long page)</option><option value="pages">Pages (one section at a time)</option></select>
+        <button class="main" id="s-save-look" type="button">Save website look</button>
+        <div class="msg" id="s-m1" hidden></div>
+
+        <h2 style="margin-top:34px">Prices page</h2>
+        <p class="mute">The "from" prices shown on the Prices page and in the Help answer.</p>
+        <label for="p-native">Native wear (naira)</label><input id="p-native" type="number" inputmode="numeric" min="0" step="500">
+        <label for="p-ankara">Ankara (naira)</label><input id="p-ankara" type="number" inputmode="numeric" min="0" step="500">
+        <label for="p-casual">Casual wear (naira)</label><input id="p-casual" type="number" inputmode="numeric" min="0" step="500">
+        <label for="p-streetwear">Streetwear (naira)</label><input id="p-streetwear" type="number" inputmode="numeric" min="0" step="500">
+        <button class="main" id="s-save-prices" type="button">Save prices</button>
+        <div class="msg" id="s-m2" hidden></div>
+
+        <h2 style="margin-top:34px">Change many prices at once</h2>
+        <p class="mute">Set one price for every design of a type, for example all Ankara designs. You can still change single designs under My designs.</p>
+        <label for="b-cat">Type</label>
+        <select id="b-cat"><option value="native wear">Native wear</option><option value="ankara">Ankara</option><option value="casual">Casual</option><option value="streetwear">Streetwear</option><option value="vip cap">VIP cap</option></select>
+        <label for="b-price">New price (naira)</label>
+        <input id="b-price" type="number" inputmode="numeric" min="0" step="500">
+        <button class="main" id="b-go" type="button">Change prices</button>
+        <div class="msg" id="s-m3" hidden></div>
+      </div>
+    </div>
+
     <div id="tab-tools" hidden>
       <h2>Import my current designs</h2>
-      <p class="mute">Use this once, to copy the designs that are already on your website into this admin page. After that you can edit or remove any of them here. It skips designs that are already imported, so it is safe to tap again.</p>
+      <p class="mute">Use this once, to copy the designs and the client photos that are already on your website into this admin page. After that you can edit or remove any of them here. It skips designs that are already imported, so it is safe to tap again.</p>
       <button class="main" id="imp" type="button" style="margin-top:6px">Import current designs</button>
       <div class="bar" id="ibar" hidden><i id="ifill"></i></div>
       <div class="msg" id="imsg" hidden></div>
+
+      <h2 style="margin-top:34px">Check my setup</h2>
+      <p class="mute">If saving does not work, tap this and send me a screenshot of the result.</p>
+      <button class="main" id="chk" type="button" style="margin-top:6px">Check my setup</button>
+      <div class="msg" id="cmsg" hidden style="white-space:pre-wrap;word-break:break-word"></div>
     </div>
   </div>
 </section>
@@ -122,7 +165,7 @@ function $(i){return document.getElementById(i)}
 function show(el,on){el.hidden=!on}
 function say(el,text,kind){el.hidden=!text;el.textContent=text||'';el.className='msg'+(kind?' '+kind:'')}
 function money(n){return '\u20a6'+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
-var SEC={work:'Our work',style:'Style ideas',vipcaps:'VIP caps'};
+var SEC={work:'Our work',style:'Style ideas',vipcaps:'VIP caps',clients:'Clients in our clothes'};
 
 if(!API||API.indexOf('__')>-1||!KEY||KEY.indexOf('__')>-1){
   document.body.innerHTML='<div class="wrap"><h1>Not connected yet</h1><p class="mute">This admin page is not connected to your database yet. The connection codes still need to be added to the file.</p></div>';
@@ -205,9 +248,10 @@ function screen(){
   if(ok)tab('add');
 }
 function tab(n){
-  ['add','list','tools'].forEach(function(t){show($('tab-'+t),t===n)});
+  ['add','list','site','tools'].forEach(function(t){show($('tab-'+t),t===n)});
   [].slice.call(document.querySelectorAll('.tabs button')).forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tab')===n)});
   if(n==='list')refreshList();
+  if(n==='site')openSite();
 }
 document.querySelector('.tabs').addEventListener('click',function(e){var b=e.target.closest('button[data-tab]');if(b)tab(b.getAttribute('data-tab'))});
 
@@ -226,7 +270,8 @@ $('f-photo').addEventListener('change',function(){
   if(!f){p.hidden=true;return}
   p.src=URL.createObjectURL(f);p.hidden=false;
 });
-$('f-sec').addEventListener('change',function(){if(this.value==='vipcaps')$('f-cat').value='vip cap';else if($('f-cat').value==='vip cap')$('f-cat').value='native wear'});
+function clientMode(){var on=$('f-sec').value==='clients';$('f-cn').hidden=!on;[$('f-cat'),$('f-cat').previousElementSibling,$('f-price'),$('f-price').previousElementSibling,$('f-price').nextElementSibling].forEach(function(e){if(e)e.hidden=on})}
+$('f-sec').addEventListener('change',function(){if(this.value==='vipcaps')$('f-cat').value='vip cap';else if($('f-cat').value==='vip cap')$('f-cat').value='native wear';clientMode()});
 $('save').addEventListener('click',async function(){
   var b=this,m=$('amsg'),f=$('f-photo').files[0],t=$('f-title').value.trim();
   if(!f){say(m,'Please choose a photo first.','err');return}
@@ -236,7 +281,7 @@ $('save').addEventListener('click',async function(){
     if(!ROWS.length)await listAll();
     if(dupTitle(t)){throw new Error('You already have a design with this name. Please change the name a little.')}
     var blob=await compress(f),up=await upload(blob),pr=$('f-price').value.trim();
-    var row=await insertRow({title:t,description:$('f-desc').value.trim(),price:pr===''?null:Math.max(0,parseInt(pr,10)||0),category:$('f-cat').value,section:$('f-sec').value,image_url:up.url,image_path:up.path,sort_order:minSort()-1,visible:true});
+    var row=await insertRow({title:t,description:$('f-desc').value.trim(),price:($('f-sec').value==='clients'||pr==='')?null:Math.max(0,parseInt(pr,10)||0),category:$('f-sec').value==='clients'?'client':$('f-cat').value,section:$('f-sec').value,image_url:up.url,image_path:up.path,sort_order:minSort()-1,visible:true});
     ROWS.unshift(row);
     say(m,'Saved. It is now on your website.','ok');
     $('f-photo').value='';$('prev').hidden=true;$('f-title').value='';$('f-desc').value='';$('f-price').value='';
@@ -268,7 +313,7 @@ function card(r){
   var info=el('div'),t=el('b',null,r.title);
   var meta=el('div','meta');meta.appendChild(el('span','tag',SEC[r.section]||r.section));meta.appendChild(el('span','tag',r.category));
   if(!r.visible)meta.appendChild(el('span','tag hide','Hidden'));
-  var pr=el('div','meta',r.price!=null?'from '+money(r.price):'Ask for the price');
+  var pr=el('div','meta',r.section==='clients'?'':(r.price!=null?'from '+money(r.price):'Ask for the price'));
   info.appendChild(t);info.appendChild(meta);info.appendChild(pr);row.appendChild(img);row.appendChild(info);c.appendChild(row);
   var acts=el('div','acts'),edit=el('div','edit');edit.hidden=true;
   acts.appendChild(btn('Edit','',function(){edit.hidden=!edit.hidden;if(!edit.hidden&&!edit.firstChild)buildEdit(edit,r)}));
@@ -303,7 +348,7 @@ function buildEdit(box,r){
     if(dupTitle(t,r.id)){say(msg,'You already have a design with this name. Please change it a little.','err');return}
     save.disabled=true;say(msg,'Saving...');
     try{
-      var patch={title:t,description:de.value.trim(),section:se.value,category:ca.value,price:pr.value.trim()===''?null:Math.max(0,parseInt(pr.value,10)||0)},old=null;
+      var cm=se.value==='clients',patch={title:t,description:de.value.trim(),section:se.value,category:cm?'client':(ca.value||'native wear'),price:(cm||pr.value.trim()==='')?null:Math.max(0,parseInt(pr.value,10)||0)},old=null;
       if(ph.files[0]){var up=await upload(await compress(ph.files[0]));old=r.image_path;patch.image_url=up.url;patch.image_path=up.path}
       await patchRow(r.id,patch);Object.assign(r,patch);if(old)await removeFile(old);
       drawList();
@@ -312,19 +357,77 @@ function buildEdit(box,r){
   save.style.marginTop='16px';box.appendChild(save);box.appendChild(msg);
 }
 
+/* ---------- website settings ---------- */
+var SET={},SET_OK=false;
+async function loadSettings(){
+  var r=await call('/rest/v1/site_settings?select=key,value');
+  if(!r.ok){SET_OK=false;return false}
+  var rows=await r.json();SET={};rows.forEach(function(x){SET[x.key]=x.value});SET_OK=true;return true;
+}
+async function saveSettings(obj){
+  var rows=Object.keys(obj).map(function(k){return {key:k,value:String(obj[k]),updated_at:new Date().toISOString()}});
+  await must(await call('/rest/v1/site_settings?on_conflict=key',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(rows)}),'Saving the settings');
+  Object.keys(obj).forEach(function(k){SET[k]=String(obj[k])});
+}
+var DEF={theme:'dark',text_size:'normal',animations:'on',layout:'scroll',price_native:'16000',price_ankara:'7000',price_casual:'6000',price_streetwear:'16000'};
+function sv(k){return SET[k]!=null&&SET[k]!==''?SET[k]:DEF[k]}
+async function openSite(){
+  say($('s-m1'),'');say($('s-m2'),'');say($('s-m3'),'');
+  try{
+    var ok=await loadSettings();
+    show($('s-missing'),!ok);show($('s-body'),ok);
+    if(!ok)return;
+    $('s-theme').value=sv('theme');$('s-ts').value=sv('text_size');$('s-an').value=sv('animations');$('s-lay').value=sv('layout');
+    ['native','ankara','casual','streetwear'].forEach(function(k){$('p-'+k).value=sv('price_'+k)});
+  }catch(e){if(e.message==='login'){screen();return}show($('s-missing'),false);show($('s-body'),true);say($('s-m1'),e.message,'err')}
+}
+$('s-save-look').addEventListener('click',async function(){
+  var b=this;b.disabled=true;say($('s-m1'),'Saving...');
+  try{await saveSettings({theme:$('s-theme').value,text_size:$('s-ts').value,animations:$('s-an').value,layout:$('s-lay').value});say($('s-m1'),'Saved. Your website shows the new look the next time it is opened or refreshed.','ok')}
+  catch(e){say($('s-m1'),e.message,'err')}
+  b.disabled=false;
+});
+$('s-save-prices').addEventListener('click',async function(){
+  var b=this,o={};b.disabled=true;
+  try{
+    ['native','ankara','casual','streetwear'].forEach(function(k){var v=$('p-'+k).value.trim();if(v===''||isNaN(parseInt(v,10))||parseInt(v,10)<0)throw new Error('Please fill in all four prices with numbers.');o['price_'+k]=parseInt(v,10)});
+    say($('s-m2'),'Saving...');await saveSettings(o);say($('s-m2'),'Saved. The Prices page now shows these prices.','ok');
+  }catch(e){say($('s-m2'),e.message,'err')}
+  b.disabled=false;
+});
+$('b-go').addEventListener('click',async function(){
+  var b=this,m=$('s-m3'),cat=$('b-cat').value,v=$('b-price').value.trim();
+  if(v===''||isNaN(parseInt(v,10))||parseInt(v,10)<0){say(m,'Please type the new price as a number.','err');return}
+  var pr=parseInt(v,10);b.disabled=true;
+  try{
+    if(!ROWS.length)await listAll();
+    var n=ROWS.filter(function(r){return r.category===cat}).length;
+    if(!n){say(m,'You have no designs of this type.','err');b.disabled=false;return}
+    if(!confirm('Change the price of '+n+' '+cat+' design'+(n===1?'':'s')+' to '+money(pr)+'?')){b.disabled=false;return}
+    say(m,'Saving...');
+    var r=await must(await call('/rest/v1/designs?category=eq.'+encodeURIComponent(cat)+'&select=id',{method:'PATCH',headers:{'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({price:pr})}),'Changing the prices');
+    var done=await r.json();
+    ROWS.forEach(function(x){if(x.category===cat)x.price=pr});
+    say(m,'Done. '+done.length+' design'+(done.length===1?'':'s')+' now cost '+money(pr)+'.','ok');
+  }catch(e){say(m,(e.message==='login'?'Please log in again.':e.message)+(e.detail?' ('+e.detail.slice(0,120)+')':''),'err');if(e.message==='login')screen()}
+  b.disabled=false;
+});
+
 /* ---------- import ---------- */
 function catOf(k){k=(k||'').toLowerCase();if(k.indexOf('vip')>-1)return'vip cap';var c=['native wear','ankara','casual','streetwear'];for(var i=0;i<c.length;i++)if(k.indexOf(c[i])>-1)return c[i];return'native wear'}
 $('imp').addEventListener('click',async function(){
   var b=this,m=$('imsg'),bar=$('ibar'),fill=$('ifill');
   b.disabled=true;say(m,'Reading your website...');bar.hidden=false;fill.style.width='0';
   try{
+    if(!(await loadSettings()))throw new Error('Before importing, please run the second setup file (supabase-settings.sql) in Supabase. See the guide, then tap Import again.');
     await listAll();
     var have={};ROWS.forEach(function(r){have[r.title.trim().toLowerCase()]=1});
     var res=await fetch('index.html',{cache:'no-store'});
     if(!res.ok)throw new Error('Could not read index.html from your website.');
     var doc=new DOMParser().parseFromString(await res.text(),'text/html'),items=[],order=0;
-    [['work','work'],['previews','style'],['vipcaps','vipcaps']].forEach(function(p){
+    [['work','work'],['previews','style'],['vipcaps','vipcaps'],['clients','clients']].forEach(function(p){
       var sec=doc.getElementById(p[0]);if(!sec)return;
+      if(p[0]==='clients'){[].slice.call(sec.querySelectorAll('figure.cl')).forEach(function(f){var im=f.querySelector('img'),cp=f.querySelector('figcaption');if(!im||!cp||!/^data:/.test(im.getAttribute('src')||''))return;items.push({title:cp.textContent.trim(),description:'',price:null,category:'client',section:'clients',src:im.getAttribute('src'),sort_order:order++})});return}
       [].slice.call(sec.querySelectorAll('figure.pv')).forEach(function(f){
         var h=f.querySelector('h3'),im=f.querySelector('img'),d=f.querySelector('figcaption p'),pr=f.querySelector('.pr');
         if(!h||!im||!/^data:/.test(im.getAttribute('src')||''))return;
@@ -345,8 +448,31 @@ $('imp').addEventListener('click',async function(){
       done++;fill.style.width=Math.round(done/items.length*100)+'%';
       say(m,'Importing '+done+' of '+items.length+'...');
     }
+    await saveSettings({imported:'1',clients_imported:'1'});
     say(m,'Done. '+added+' designs imported'+(skipped?', '+skipped+' were already there':'')+'. You can see them under My designs.','ok');
   }catch(e){say(m,(e.message==='login'?'Please log in again.':e.message)+(e.detail?' ('+e.detail.slice(0,120)+')':''),'err');if(e.message==='login')screen()}
+  b.disabled=false;
+});
+
+/* ---------- setup check ---------- */
+$('chk').addEventListener('click',async function(){
+  var b=this,m=$('cmsg'),out=[];b.disabled=true;say(m,'Checking...');
+  function line(ok,t,d){out.push((ok?'OK: ':'PROBLEM: ')+t+(d?'\n   '+d:''))}
+  async function why(r){var t='';try{t=await r.text()}catch(e){}return r.status+' '+t.slice(0,160)}
+  try{
+    var r=await call('/rest/v1/designs?select=id&limit=1');line(r.ok,'Reading designs',r.ok?'':await why(r));
+    r=await call('/rest/v1/site_settings?select=key&limit=1');line(r.ok,'Reading website settings',r.ok?'':await why(r));
+    var png=Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='),function(c){return c.charCodeAt(0)});
+    var tp='check-'+Date.now()+'.png';
+    r=await call('/storage/v1/object/'+BUCKET+'/'+tp,{method:'POST',headers:{'Content-Type':'image/png','x-upsert':'false'},body:new Blob([png],{type:'image/png'})});
+    line(r.ok,'Uploading a photo',r.ok?'':await why(r));
+    if(r.ok){var d=await call('/storage/v1/object/'+BUCKET+'/'+tp,{method:'DELETE'});line(d.ok,'Deleting a photo',d.ok?'':await why(d))}
+    r=await call('/rest/v1/designs',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({title:'check-'+Date.now(),image_url:'x',visible:false,section:'style',category:'casual'})});
+    line(r.ok,'Saving a design',r.ok?'':await why(r));
+    if(r.ok){var j=await r.json();if(j[0]){var d2=await call('/rest/v1/designs?id=eq.'+j[0].id,{method:'DELETE'});line(d2.ok,'Deleting a design',d2.ok?'':await why(d2))}}
+    var bad=out.some(function(x){return x.indexOf('PROBLEM')===0});
+    say(m,(bad?'Something is not right:\n\n':'Everything works.\n\n')+out.join('\n'),bad?'err':'ok');m.style.whiteSpace='pre-wrap';
+  }catch(e){say(m,e.message==='login'?'Please log in again.':e.message,'err');if(e.message==='login')screen()}
   b.disabled=false;
 });
 
