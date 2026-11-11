@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0e0c09">
+<title>EJ Stitches Admin</title>
+<style>
+:root{--bg:#0e0c09;--panel:#1a160e;--line:#3a3220;--ink:#f3ead7;--mute:#b3a68a;--acc:#d9a93b;--on-acc:#1a1205;--bad:#ff7b6b;--good:#6fd68a}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 0 60px}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
+h1{font:500 28px Georgia,"Times New Roman",serif;margin:0}
+h2{font:500 22px Georgia,"Times New Roman",serif;margin:0 0 12px}
+p{margin:0 0 12px}
+.mute{color:var(--mute)}
+.small{font-size:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+label{display:block;margin:14px 0 6px;color:var(--mute);font-size:15px}
+input,select,textarea{width:100%;font:inherit;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:12px}
+input[type=file]{padding:10px}
+textarea{min-height:84px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+button{font:inherit;cursor:pointer;border-radius:999px;border:1px solid var(--acc);background:transparent;color:var(--acc);padding:11px 18px}
+button.main{background:var(--acc);color:var(--on-acc);font-weight:600;width:100%;margin-top:18px;padding:14px}
+button.red{border-color:var(--bad);color:var(--bad)}
+button.sm{padding:8px 14px;font-size:15px}
+button[disabled]{opacity:.5;cursor:default}
+.tabs{display:flex;gap:8px;margin:0 0 16px;flex-wrap:wrap}
+.tabs button.on{background:var(--acc);color:var(--on-acc)}
+.msg{margin:14px 0 0;padding:12px;border-radius:8px;border:1px solid var(--line);background:var(--panel)}
+.msg.err{border-color:var(--bad);color:var(--bad)}
+.msg.ok{border-color:var(--good);color:var(--good)}
+.msg[hidden],[hidden]{display:none!important}
+#prev{display:block;max-width:220px;max-height:280px;border-radius:8px;margin-top:10px}
+.card{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px;margin:0 0 12px}
+.card .row{display:grid;grid-template-columns:78px 1fr;gap:12px;align-items:start}
+.card img.th{width:78px;height:96px;object-fit:cover;border-radius:6px;display:block;background:#000}
+.card b{display:block;line-height:1.3;word-break:break-word}
+.card .meta{color:var(--mute);font-size:14px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0 8px;font-size:13px;color:var(--mute);margin-right:6px}
+.tag.hide{border-color:var(--bad);color:var(--bad)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.edit{border-top:1px solid var(--line);margin-top:12px;padding-top:4px}
+.bar{height:10px;background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;width:0;background:var(--acc)}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+a{color:var(--acc)}
+</style>
+</head>
+<body>
+<script>window.EJ_CONFIG={url:"https://hidrlmquubklcqqswrwn.supabase.co",key:"sb_publishable_Coj07Pd5fyHBDsCdttfuHA_IWTS2P6w"};</script>
+
+<section id="login" class="wrap" hidden>
+  <h1>EJ Stitches Admin</h1>
+  <p class="mute">Log in to add or change designs on your website.</p>
+  <label for="em">Email</label>
+  <input id="em" type="email" autocomplete="username" inputmode="email" autocapitalize="off">
+  <label for="pw">Password</label>
+  <input id="pw" type="password" autocomplete="current-password">
+  <button class="main" id="go" type="button">Log in</button>
+  <div class="msg err" id="lerr" hidden></div>
+</section>
+
+<section id="app" hidden>
+  <div class="top"><h1>Admin</h1><div><a href="index.html" class="small" style="margin-right:12px">View site</a><button class="sm" id="out" type="button">Log out</button></div></div>
+  <div class="wrap">
+    <div class="tabs" role="tablist">
+      <button type="button" data-tab="add" class="on">Add design</button>
+      <button type="button" data-tab="list">My designs</button>
+      <button type="button" data-tab="site">Website</button>
+      <button type="button" data-tab="tools">Tools</button>
+    </div>
+
+    <div id="tab-add">
+      <h2>Add a design</h2>
+      <label for="f-photo">Photo</label>
+      <input id="f-photo" type="file" accept="image/*">
+      <img id="prev" alt="" hidden>
+      <label for="f-title">Name</label>
+      <input id="f-title" type="text" placeholder="Example: Green native set with cap" maxlength="90">
+      <label for="f-desc">Short description (optional)</label>
+      <textarea id="f-desc" maxlength="200" placeholder="Example: Short sleeves and matching trousers"></textarea>
+      <label for="f-sec">Where should it show?</label>
+      <select id="f-sec"><option value="style">Style ideas</option><option value="work">Our work</option><option value="vipcaps">VIP caps</option></select>
+      <label for="f-cat">Type</label>
+      <select id="f-cat"><option value="native wear">Native wear</option><option value="ankara">Ankara</option><option value="casual">Casual</option><option value="streetwear">Streetwear</option><option value="vip cap">VIP cap</option></select>
+      <label for="f-price">Price in naira (optional)</label>
+      <input id="f-price" type="number" inputmode="numeric" min="0" step="500" placeholder="Example: 16000">
+      <p class="mute small" style="margin-top:6px">Leave the price empty and the site shows "Ask for the price".</p>
+      <button class="main" id="save" type="button">Save design</button>
+      <div class="msg" id="amsg" hidden></div>
+    </div>
+
+    <div id="tab-list" hidden>
+      <h2>My designs</h2>
+      <div class="filters">
+        <select id="l-sec"><option value="">All sections</option><option value="work">Our work</option><option value="style">Style ideas</option><option value="vipcaps">VIP caps</option></select>
+        <input id="l-q" type="search" placeholder="Search by name">
+      </div>
+      <p class="mute small" id="l-count"></p>
+      <div id="l-list"></div>
+      <div class="msg" id="lmsg" hidden></div>
+    </div>
+
+    <div id="tab-site" hidden>
+      <div class="msg err" id="s-missing" hidden>This part needs one more setup step in Supabase. Open <b>SQL Editor</b>, paste the second setup file (<b>supabase-settings.sql</b>), tap <b>Run</b>, then come back and open this tab again.</div>
+      <div id="s-body" hidden>
+        <h2>Website look</h2>
+        <p class="mute">These apply to everyone who visits your website. Visitors can no longer change them.</p>
+        <label for="s-theme">Mode</label>
+        <select id="s-theme"><option value="dark">Dark</option><option value="light">Light (day)</option></select>
+        <label for="s-ts">Text size</label>
+        <select id="s-ts"><option value="small">Small</option><option value="normal">Normal</option><option value="large">Large</option></select>
+        <label for="s-an">Animations</label>
+        <select id="s-an"><option value="on">On</option><option value="off">Off</option></select>
+        <label for="s-lay">Layout</label>
+        <select id="s-lay"><option value="scroll">Scroll (one long page)</option><option value="pages">Pages (one section at a time)</option></select>
+        <button class="main" id="s-save-look" type="button">Save website look</button>
+        <div class="msg" id="s-m1" hidden></div>
+
+        <h2 style="margin-top:34px">Prices page</h2>
+        <p class="mute">The "from" prices shown on the Prices page and in the Help answer.</p>
+        <label for="p-native">Native wear (naira)</label><input id="p-native" type="number" inputmode="numeric" min="0" step="500">
+        <label for="p-ankara">Ankara (naira)</label><input id="p-ankara" type="number" inputmode="numeric" min="0" step="500">
+        <label for="p-casual">Casual wear (naira)</label><input id="p-casual" type="number" inputmode="numeric" min="0" step="500">
+        <label for="p-streetwear">Streetwear (naira)</label><input id="p-streetwear" type="number" inputmode="numeric" min="0" step="500">
+        <button class="main" id="s-save-prices" type="button">Save prices</button>
+        <div class="msg" id="s-m2" hidden></div>
+
+        <h2 style="margin-top:34px">Change many prices at once</h2>
+        <p class="mute">Set one price for every design of a type, for example all Ankara designs. You can still change single designs under My designs.</p>
+        <label for="b-cat">Type</label>
+        <select id="b-cat"><option value="native wear">Native wear</option><option value="ankara">Ankara</option><option value="casual">Casual</option><option value="streetwear">Streetwear</option><option value="vip cap">VIP cap</option></select>
+        <label for="b-price">New price (naira)</label>
+        <input id="b-price" type="number" inputmode="numeric" min="0" step="500">
+        <button class="main" id="b-go" type="button">Change prices</button>
+        <div class="msg" id="s-m3" hidden></div>
+      </div>
+    </div>
+
+    <div id="tab-tools" hidden>
+      <h2>Import my current designs</h2>
+      <p class="mute">Use this once, to copy the designs that are already on your website into this admin page. After that you can edit or remove any of them here. It skips designs that are already imported, so it is safe to tap again.</p>
+      <button class="main" id="imp" type="button" style="margin-top:6px">Import current designs</button>
+      <div class="bar" id="ibar" hidden><i id="ifill"></i></div>
+      <div class="msg" id="imsg" hidden></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+var C=window.EJ_CONFIG||{},API=(C.url||'').replace(/\/$/,''),KEY=C.key||'',BUCKET='design-photos',SKEY='ejs_admin_session';
+var S=null,ROWS=[];
+function $(i){return document.getElementById(i)}
+function show(el,on){el.hidden=!on}
+function say(el,text,kind){el.hidden=!text;el.textContent=text||'';el.className='msg'+(kind?' '+kind:'')}
+function money(n){return '\u20a6'+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+var SEC={work:'Our work',style:'Style ideas',vipcaps:'VIP caps'};
+
+if(!API||API.indexOf('__')>-1||!KEY||KEY.indexOf('__')>-1){
+  document.body.innerHTML='<div class="wrap"><h1>Not connected yet</h1><p class="mute">This admin page is not connected to your database yet. The connection codes still need to be added to the file.</p></div>';
+  return;
+}
+
+/* ---------- session ---------- */
+function loadS(){try{S=JSON.parse(localStorage.getItem(SKEY)||'null')}catch(e){S=null}}
+function saveS(x){S=x;try{if(x)localStorage.setItem(SKEY,JSON.stringify(x));else localStorage.removeItem(SKEY)}catch(e){}}
+function pack(j){return {access_token:j.access_token,refresh_token:j.refresh_token,expires_at:Date.now()+(j.expires_in||3600)*1000}}
+async function login(email,pw){
+  var r=await fetch(API+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pw})});
+  var j={};try{j=await r.json()}catch(e){}
+  if(!r.ok||!j.access_token)throw new Error('Wrong email or password.');
+  saveS(pack(j));
+}
+async function refresh(){
+  if(!S||!S.refresh_token)throw new Error('login');
+  var r=await fetch(API+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:S.refresh_token})});
+  var j={};try{j=await r.json()}catch(e){}
+  if(!r.ok||!j.access_token){saveS(null);throw new Error('login')}
+  saveS(pack(j));
+}
+async function call(path,opts){
+  if(!S)throw new Error('login');
+  if(S.expires_at-Date.now()<60000)await refresh();
+  opts=opts||{};
+  opts.headers=Object.assign({apikey:KEY,Authorization:'Bearer '+S.access_token},opts.headers||{});
+  var r=await fetch(API+path,opts);
+  if(r.status===401){await refresh();opts.headers.Authorization='Bearer '+S.access_token;r=await fetch(API+path,opts)}
+  return r;
+}
+async function must(r,what){
+  if(r.ok)return r;
+  var t='';try{t=await r.text()}catch(e){}
+  var err=new Error(what+' did not work ('+r.status+').');err.detail=t;throw err;
+}
+
+/* ---------- data ---------- */
+async function listAll(){
+  var r=await must(await call('/rest/v1/designs?select=*&order=sort_order.asc,created_at.desc'),'Loading designs');
+  ROWS=await r.json();return ROWS;
+}
+async function insertRow(row){
+  var r=await must(await call('/rest/v1/designs',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify(row)}),'Saving the design');
+  return (await r.json())[0];
+}
+async function patchRow(id,patch){
+  await must(await call('/rest/v1/designs?id=eq.'+id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(patch)}),'Saving the change');
+}
+async function deleteRow(id){await must(await call('/rest/v1/designs?id=eq.'+id,{method:'DELETE'}),'Deleting the design')}
+async function upload(blob){
+  var ext=blob.type==='image/webp'?'webp':(blob.type==='image/png'?'png':'jpg');
+  var path=Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.'+ext;
+  await must(await call('/storage/v1/object/'+BUCKET+'/'+path,{method:'POST',headers:{'Content-Type':blob.type||'image/jpeg','x-upsert':'false'},body:blob}),'Uploading the photo');
+  return {path:path,url:API+'/storage/v1/object/public/'+BUCKET+'/'+path};
+}
+async function removeFile(path){if(path){try{await call('/storage/v1/object/'+BUCKET+'/'+path,{method:'DELETE'})}catch(e){}}}
+function minSort(){return ROWS.length?Math.min.apply(null,ROWS.map(function(r){return r.sort_order||0})):0}
+function dupTitle(t,exceptId){t=t.trim().toLowerCase();return ROWS.some(function(r){return r.id!==exceptId&&r.title.trim().toLowerCase()===t})}
+
+/* ---------- photo compress ---------- */
+function toBlob(cv,type,q){return new Promise(function(res){cv.toBlob(function(b){res(b)},type,q)})}
+function loadImg(file){return new Promise(function(res,rej){var u=URL.createObjectURL(file),i=new Image();i.onload=function(){res(i)};i.onerror=function(){rej(new Error('That file is not a picture.'))};i.src=u})}
+async function compress(file){
+  var src;
+  try{src=await createImageBitmap(file,{imageOrientation:'from-image'})}catch(e){src=await loadImg(file)}
+  var w=src.width,h=src.height,sc=Math.min(1,900/Math.max(w,h)),cv=document.createElement('canvas');
+  cv.width=Math.max(1,Math.round(w*sc));cv.height=Math.max(1,Math.round(h*sc));
+  cv.getContext('2d').drawImage(src,0,0,cv.width,cv.height);
+  var b=await toBlob(cv,'image/webp',.72);
+  if(!b||b.type!=='image/webp')b=await toBlob(cv,'image/jpeg',.8);
+  if(!b)throw new Error('Could not prepare the photo.');
+  return b;
+}
+
+/* ---------- screens ---------- */
+function screen(){
+  var ok=!!S;show($('login'),!ok);show($('app'),ok);
+  if(ok)tab('add');
+}
+function tab(n){
+  ['add','list','site','tools'].forEach(function(t){show($('tab-'+t),t===n)});
+  [].slice.call(document.querySelectorAll('.tabs button')).forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tab')===n)});
+  if(n==='list')refreshList();
+  if(n==='site')openSite();
+}
+document.querySelector('.tabs').addEventListener('click',function(e){var b=e.target.closest('button[data-tab]');if(b)tab(b.getAttribute('data-tab'))});
+
+$('go').addEventListener('click',async function(){
+  var b=this;b.disabled=true;say($('lerr'),'');
+  try{await login($('em').value.trim(),$('pw').value);$('pw').value='';screen()}
+  catch(e){say($('lerr'),e.message||'Could not log in.','err')}
+  b.disabled=false;
+});
+$('pw').addEventListener('keydown',function(e){if(e.key==='Enter')$('go').click()});
+$('out').addEventListener('click',function(){saveS(null);ROWS=[];screen()});
+
+/* ---------- add ---------- */
+$('f-photo').addEventListener('change',function(){
+  var f=this.files[0],p=$('prev');
+  if(!f){p.hidden=true;return}
+  p.src=URL.createObjectURL(f);p.hidden=false;
+});
+$('f-sec').addEventListener('change',function(){if(this.value==='vipcaps')$('f-cat').value='vip cap';else if($('f-cat').value==='vip cap')$('f-cat').value='native wear'});
+$('save').addEventListener('click',async function(){
+  var b=this,m=$('amsg'),f=$('f-photo').files[0],t=$('f-title').value.trim();
+  if(!f){say(m,'Please choose a photo first.','err');return}
+  if(!t){say(m,'Please write the name of the design.','err');return}
+  b.disabled=true;say(m,'Saving... please wait.');
+  try{
+    if(!ROWS.length)await listAll();
+    if(dupTitle(t)){throw new Error('You already have a design with this name. Please change the name a little.')}
+    var blob=await compress(f),up=await upload(blob),pr=$('f-price').value.trim();
+    var row=await insertRow({title:t,description:$('f-desc').value.trim(),price:pr===''?null:Math.max(0,parseInt(pr,10)||0),category:$('f-cat').value,section:$('f-sec').value,image_url:up.url,image_path:up.path,sort_order:minSort()-1,visible:true});
+    ROWS.unshift(row);
+    say(m,'Saved. It is now on your website.','ok');
+    $('f-photo').value='';$('prev').hidden=true;$('f-title').value='';$('f-desc').value='';$('f-price').value='';
+  }catch(e){say(m,(e.message==='login'?'Please log in again.':e.message)+(e.detail?' ('+e.detail.slice(0,120)+')':''),'err');if(e.message==='login')screen()}
+  b.disabled=false;
+});
+
+/* ---------- list ---------- */
+async function refreshList(){
+  say($('lmsg'),'');
+  try{await listAll();drawList()}catch(e){if(e.message==='login'){screen();return}say($('lmsg'),e.message,'err')}
+}
+function drawList(){
+  var sec=$('l-sec').value,q=$('l-q').value.trim().toLowerCase(),box=$('l-list');
+  box.innerHTML='';
+  var rows=ROWS.filter(function(r){return(!sec||r.section===sec)&&(!q||r.title.toLowerCase().indexOf(q)>-1)});
+  $('l-count').textContent=rows.length+' of '+ROWS.length+' designs';
+  rows.forEach(function(r){box.appendChild(card(r))});
+}
+$('l-sec').addEventListener('change',drawList);
+$('l-q').addEventListener('input',drawList);
+
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function btn(text,cls,fn){var b=el('button','sm'+(cls?' '+cls:''),text);b.type='button';b.addEventListener('click',fn);return b}
+function opt(sel,val,text){var o=document.createElement('option');o.value=val;o.textContent=text;sel.appendChild(o)}
+
+function card(r){
+  var c=el('div','card'),row=el('div','row'),img=el('img','th');img.src=r.image_url;img.alt='';img.loading='lazy';
+  var info=el('div'),t=el('b',null,r.title);
+  var meta=el('div','meta');meta.appendChild(el('span','tag',SEC[r.section]||r.section));meta.appendChild(el('span','tag',r.category));
+  if(!r.visible)meta.appendChild(el('span','tag hide','Hidden'));
+  var pr=el('div','meta',r.price!=null?'from '+money(r.price):'Ask for the price');
+  info.appendChild(t);info.appendChild(meta);info.appendChild(pr);row.appendChild(img);row.appendChild(info);c.appendChild(row);
+  var acts=el('div','acts'),edit=el('div','edit');edit.hidden=true;
+  acts.appendChild(btn('Edit','',function(){edit.hidden=!edit.hidden;if(!edit.hidden&&!edit.firstChild)buildEdit(edit,r)}));
+  acts.appendChild(btn(r.visible?'Hide':'Show','',async function(){
+    this.disabled=true;
+    try{await patchRow(r.id,{visible:!r.visible});r.visible=!r.visible;drawList()}catch(e){say($('lmsg'),e.message,'err');this.disabled=false}
+  }));
+  acts.appendChild(btn('Move to top','',async function(){
+    this.disabled=true;
+    try{var s=minSort()-1;await patchRow(r.id,{sort_order:s});r.sort_order=s;ROWS.sort(function(a,b){return(a.sort_order-b.sort_order)||(new Date(b.created_at)-new Date(a.created_at))});drawList();say($('lmsg'),'Moved to the top.','ok')}catch(e){say($('lmsg'),e.message,'err');this.disabled=false}
+  }));
+  acts.appendChild(btn('Delete','red',async function(){
+    if(!confirm('Delete "'+r.title+'"? This cannot be undone.'))return;
+    this.disabled=true;
+    try{await deleteRow(r.id);await removeFile(r.image_path);ROWS=ROWS.filter(function(x){return x.id!==r.id});drawList();say($('lmsg'),'Deleted.','ok')}catch(e){say($('lmsg'),e.message,'err');this.disabled=false}
+  }));
+  c.appendChild(acts);c.appendChild(edit);return c;
+}
+
+function field(parent,label,node){var l=el('label',null,label);parent.appendChild(l);parent.appendChild(node);return node}
+function buildEdit(box,r){
+  var ti=el('input');ti.type='text';ti.value=r.title;ti.maxLength=90;field(box,'Name',ti);
+  var de=el('textarea');de.value=r.description||'';de.maxLength=200;field(box,'Short description',de);
+  var se=el('select');Object.keys(SEC).forEach(function(k){opt(se,k,SEC[k])});se.value=r.section;field(box,'Where should it show?',se);
+  var ca=el('select');[['native wear','Native wear'],['ankara','Ankara'],['casual','Casual'],['streetwear','Streetwear'],['vip cap','VIP cap']].forEach(function(x){opt(ca,x[0],x[1])});ca.value=r.category;field(box,'Type',ca);
+  var pr=el('input');pr.type='number';pr.inputMode='numeric';pr.min=0;pr.step=500;pr.value=r.price!=null?r.price:'';field(box,'Price in naira (empty = Ask for the price)',pr);
+  var ph=el('input');ph.type='file';ph.accept='image/*';field(box,'Change the photo (optional)',ph);
+  var msg=el('div','msg');msg.hidden=true;
+  var save=btn('Save changes','main',async function(){
+    var t=ti.value.trim();
+    if(!t){say(msg,'The name cannot be empty.','err');return}
+    if(dupTitle(t,r.id)){say(msg,'You already have a design with this name. Please change it a little.','err');return}
+    save.disabled=true;say(msg,'Saving...');
+    try{
+      var patch={title:t,description:de.value.trim(),section:se.value,category:ca.value,price:pr.value.trim()===''?null:Math.max(0,parseInt(pr.value,10)||0)},old=null;
+      if(ph.files[0]){var up=await upload(await compress(ph.files[0]));old=r.image_path;patch.image_url=up.url;patch.image_path=up.path}
+      await patchRow(r.id,patch);Object.assign(r,patch);if(old)await removeFile(old);
+      drawList();
+    }catch(e){say(msg,e.message,'err');save.disabled=false}
+  });
+  save.style.marginTop='16px';box.appendChild(save);box.appendChild(msg);
+}
+
+/* ---------- website settings ---------- */
+var SET={},SET_OK=false;
+async function loadSettings(){
+  var r=await call('/rest/v1/site_settings?select=key,value');
+  if(!r.ok){SET_OK=false;return false}
+  var rows=await r.json();SET={};rows.forEach(function(x){SET[x.key]=x.value});SET_OK=true;return true;
+}
+async function saveSettings(obj){
+  var rows=Object.keys(obj).map(function(k){return {key:k,value:String(obj[k]),updated_at:new Date().toISOString()}});
+  await must(await call('/rest/v1/site_settings?on_conflict=key',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(rows)}),'Saving the settings');
+  Object.keys(obj).forEach(function(k){SET[k]=String(obj[k])});
+}
+var DEF={theme:'dark',text_size:'normal',animations:'on',layout:'scroll',price_native:'16000',price_ankara:'7000',price_casual:'6000',price_streetwear:'16000'};
+function sv(k){return SET[k]!=null&&SET[k]!==''?SET[k]:DEF[k]}
+async function openSite(){
+  say($('s-m1'),'');say($('s-m2'),'');say($('s-m3'),'');
+  try{
+    var ok=await loadSettings();
+    show($('s-missing'),!ok);show($('s-body'),ok);
+    if(!ok)return;
+    $('s-theme').value=sv('theme');$('s-ts').value=sv('text_size');$('s-an').value=sv('animations');$('s-lay').value=sv('layout');
+    ['native','ankara','casual','streetwear'].forEach(function(k){$('p-'+k).value=sv('price_'+k)});
+  }catch(e){if(e.message==='login'){screen();return}show($('s-missing'),false);show($('s-body'),true);say($('s-m1'),e.message,'err')}
+}
+$('s-save-look').addEventListener('click',async function(){
+  var b=this;b.disabled=true;say($('s-m1'),'Saving...');
+  try{await saveSettings({theme:$('s-theme').value,text_size:$('s-ts').value,animations:$('s-an').value,layout:$('s-lay').value});say($('s-m1'),'Saved. Your website shows the new look the next time it is opened or refreshed.','ok')}
+  catch(e){say($('s-m1'),e.message,'err')}
+  b.disabled=false;
+});
+$('s-save-prices').addEventListener('click',async function(){
+  var b=this,o={};b.disabled=true;
+  try{
+    ['native','ankara','casual','streetwear'].forEach(function(k){var v=$('p-'+k).value.trim();if(v===''||isNaN(parseInt(v,10))||parseInt(v,10)<0)throw new Error('Please fill in all four prices with numbers.');o['price_'+k]=parseInt(v,10)});
+    say($('s-m2'),'Saving...');await saveSettings(o);say($('s-m2'),'Saved. The Prices page now shows these prices.','ok');
+  }catch(e){say($('s-m2'),e.message,'err')}
+  b.disabled=false;
+});
+$('b-go').addEventListener('click',async function(){
+  var b=this,m=$('s-m3'),cat=$('b-cat').value,v=$('b-price').value.trim();
+  if(v===''||isNaN(parseInt(v,10))||parseInt(v,10)<0){say(m,'Please type the new price as a number.','err');return}
+  var pr=parseInt(v,10);b.disabled=true;
+  try{
+    if(!ROWS.length)await listAll();
+    var n=ROWS.filter(function(r){return r.category===cat}).length;
+    if(!n){say(m,'You have no designs of this type.','err');b.disabled=false;return}
+    if(!confirm('Change the price of '+n+' '+cat+' design'+(n===1?'':'s')+' to '+money(pr)+'?')){b.disabled=false;return}
+    say(m,'Saving...');
+    var r=await must(await call('/rest/v1/designs?category=eq.'+encodeURIComponent(cat)+'&select=id',{method:'PATCH',headers:{'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({price:pr})}),'Changing the prices');
+    var done=await r.json();
+    ROWS.forEach(function(x){if(x.category===cat)x.price=pr});
+    say(m,'Done. '+done.length+' design'+(done.length===1?'':'s')+' now cost '+money(pr)+'.','ok');
+  }catch(e){say(m,(e.message==='login'?'Please log in again.':e.message)+(e.detail?' ('+e.detail.slice(0,120)+')':''),'err');if(e.message==='login')screen()}
+  b.disabled=false;
+});
+
+/* ---------- import ---------- */
+function catOf(k){k=(k||'').toLowerCase();if(k.indexOf('vip')>-1)return'vip cap';var c=['native wear','ankara','casual','streetwear'];for(var i=0;i<c.length;i++)if(k.indexOf(c[i])>-1)return c[i];return'native wear'}
+$('imp').addEventListener('click',async function(){
+  var b=this,m=$('imsg'),bar=$('ibar'),fill=$('ifill');
+  b.disabled=true;say(m,'Reading your website...');bar.hidden=false;fill.style.width='0';
+  try{
+    if(!(await loadSettings()))throw new Error('Before importing, please run the second setup file (supabase-settings.sql) in Supabase. See the guide, then tap Import again.');
+    await listAll();
+    var have={};ROWS.forEach(function(r){have[r.title.trim().toLowerCase()]=1});
+    var res=await fetch('index.html',{cache:'no-store'});
+    if(!res.ok)throw new Error('Could not read index.html from your website.');
+    var doc=new DOMParser().parseFromString(await res.text(),'text/html'),items=[],order=0;
+    [['work','work'],['previews','style'],['vipcaps','vipcaps']].forEach(function(p){
+      var sec=doc.getElementById(p[0]);if(!sec)return;
+      [].slice.call(sec.querySelectorAll('figure.pv')).forEach(function(f){
+        var h=f.querySelector('h3'),im=f.querySelector('img'),d=f.querySelector('figcaption p'),pr=f.querySelector('.pr');
+        if(!h||!im||!/^data:/.test(im.getAttribute('src')||''))return;
+        var mm=pr?pr.textContent.match(/\d[\d,]{2,}/):null;
+        items.push({title:h.textContent.trim(),description:d?d.textContent.trim():'',price:mm?parseInt(mm[0].replace(/,/g,''),10):null,category:catOf(f.getAttribute('data-k')),section:p[1],src:im.getAttribute('src'),sort_order:order++});
+      });
+    });
+    if(!items.length)throw new Error('I could not find designs inside index.html to import.');
+    var done=0,added=0,skipped=0;
+    for(var i=0;i<items.length;i++){
+      var it=items[i];
+      if(have[it.title.toLowerCase()]){skipped++}
+      else{
+        var blob=await (await fetch(it.src)).blob(),up=await upload(blob);
+        var row=await insertRow({title:it.title,description:it.description,price:it.price,category:it.category,section:it.section,image_url:up.url,image_path:up.path,sort_order:it.sort_order,visible:true});
+        ROWS.push(row);have[it.title.toLowerCase()]=1;added++;
+      }
+      done++;fill.style.width=Math.round(done/items.length*100)+'%';
+      say(m,'Importing '+done+' of '+items.length+'...');
+    }
+    await saveSettings({imported:'1'});
+    say(m,'Done. '+added+' designs imported'+(skipped?', '+skipped+' were already there':'')+'. You can see them under My designs.','ok');
+  }catch(e){say(m,(e.message==='login'?'Please log in again.':e.message)+(e.detail?' ('+e.detail.slice(0,120)+')':''),'err');if(e.message==='login')screen()}
+  b.disabled=false;
+});
+
+loadS();screen();
+})();
+</script>
+</body>
+</html>
