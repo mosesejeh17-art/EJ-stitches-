@@ -289,7 +289,14 @@ header .wrap{position:relative}
 #xb b{font-weight:600}
 #xb a{display:inline-block;margin-left:8px;padding:2px 12px;border:1px solid #1a1205;border-radius:999px;color:#1a1205;text-decoration:none;font-weight:600;white-space:nowrap}
 #xb button{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:40px;height:40px;background:transparent;border:0;color:#1a1205;font-size:26px;line-height:1;cursor:pointer}
+.xs-empty{display:none!important}
+#sg,#spn,#tm{display:none!important}
 </style>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem('ejs_site')||'null');if(!c)return;var R=document.documentElement,L=localStorage;
+if(c.theme==='light'||c.theme==='dark'){R.setAttribute('data-theme',c.theme);L.setItem('ejtheme',c.theme)}
+var ts={small:'0.9',normal:'1',large:'1.15'}[c.text_size];if(ts){R.style.setProperty('--ts',ts);L.setItem('ejts',ts)}
+if(c.animations==='on'||c.animations==='off'){var a=c.animations;if(a==='on'&&window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)a='off';R.setAttribute('data-anim',a);L.setItem('ejan',a)}
+if(c.layout==='pages'||c.layout==='scroll')L.setItem('ejlay',c.layout)}catch(e){}})();</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -446,10 +453,10 @@ header .wrap{position:relative}
 <section id="prices" data-page="prices"><div class="wrap split">
 <div><h2>Prices</h2><p class="lead">Prices start from these amounts. Message us with the style you want for an exact quote. You can pay through OPay, Grey, Moniepoint or Access Bank. See <a href="#pay">how to pay</a>.</p></div>
 <ul class="prices">
-<li><span>Native wear</span><b>from &#8358;16,000</b></li>
-<li><span>Ankara</span><b>from &#8358;7,000</b></li>
-<li><span>Casual wear</span><b>from &#8358;6,000</b></li>
-<li><span>Streetwear</span><b>from &#8358;16,000</b></li>
+<li data-pk="native"><span>Native wear</span><b>from &#8358;16,000</b></li>
+<li data-pk="ankara"><span>Ankara</span><b>from &#8358;7,000</b></li>
+<li data-pk="casual"><span>Casual wear</span><b>from &#8358;6,000</b></li>
+<li data-pk="streetwear"><span>Streetwear</span><b>from &#8358;16,000</b></li>
 </ul>
 </div></section>
 
@@ -541,6 +548,7 @@ header .wrap{position:relative}
 <footer><div class="wrap fw"><div class="fgrid"><div><b class="fbr">EJ Stitches</b><p>Luxury made-to-measure menswear: native wear, Ankara, casual and streetwear.</p></div><div><b>Pages</b><a href="#top">Home</a><a href="#previews">Designs</a><a href="#prices">Prices</a><a href="#measure">How to measure</a><a href="#help">Help</a><a href="#about">About</a><a href="#contact">Contact</a><a href="#order">Order form</a></div><div><b>Contact us</b><a href="https://wa.me/2349046803715" target="_blank" rel="noopener">WhatsApp: 0904 680 3715</a><a href="tel:08147709781">Call: 0814 770 9781</a><a href="https://maps.app.goo.gl/SWr1nXv5EDnbkKUE6" target="_blank" rel="noopener">No. 83 Okwanka Street, Otukpo, Benue State</a><span>Open full time</span></div><div><b>Follow us</b><a class="soc" href="https://www.facebook.com/profile.php?id=61583947275746" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><a class="soc tt" href="https://www.tiktok.com/@melin3351" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a></div></div><div class="fbot"><span>&copy; 2026 EJ Stitches</span><span>Made-to-measure fashion</span></div></div></footer>
 
 <dialog id="lb"><img alt=""></dialog>
+<script>window.EJ_CONFIG={url:"https://hidrlmquubklcqqswrwn.supabase.co",key:"sb_publishable_Coj07Pd5fyHBDsCdttfuHA_IWTS2P6w"};window.EJ_Q=[];window.EJ_DONE=false;window.EJ_AFTER_DATA=function(f){if(window.EJ_DONE){f()}else{window.EJ_Q.push(f)}};</script>
 <script>
 document.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){
 document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
@@ -581,7 +589,7 @@ setTimeout(start,wait);
 </script>
 <a class="wa" href="https://wa.me/2349046803715?text=Hello%20EJ%20Stitches%2C%20I%20would%20like%20to%20place%20an%20order.">Chat on WhatsApp</a>
 <script>
-(function(){
+EJ_AFTER_DATA(function(){
 var q=document.getElementById('q');if(!q)return;
 var x=document.getElementById('qx'),note=document.getElementById('qn'),zero=document.getElementById('qz'),zt=document.getElementById('qzt'),za=document.getElementById('qza');
 var figs=[].slice.call(document.querySelectorAll('figure.pv'));
@@ -616,7 +624,7 @@ function run(){
 }
 q.addEventListener('input',run);
 x.addEventListener('click',function(){q.value='';run();q.focus();});
-})();
+});
 </script>
 <script>
 (function(){
@@ -661,7 +669,7 @@ b.addEventListener('click',function(e){
 <div id="xc-bg" hidden><div class="xc-box" role="dialog" aria-modal="true" aria-label="Your cart"><div class="xc-head"><h3>Your cart</h3><button type="button" id="xc-close" aria-label="Close cart">&times;</button></div><p class="xc-note">Designs you saved stay on this phone. Come back when you are ready to order.</p><ul id="xc-list"></ul><div class="xc-foot" id="xc-foot"></div></div></div>
 <div id="xc-toast" role="status" aria-live="polite"></div>
 <script>
-(function(){
+EJ_AFTER_DATA(function(){
 var KEY='ejs_cart',mem=[];
 function load(){try{var v=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(v)?v:[]}catch(e){return mem.slice()}}
 function save(a){mem=a.slice();try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
@@ -715,7 +723,7 @@ document.addEventListener('click',function(e){
 });
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!bg.hidden)close()});
 paint();
-})();
+});
 </script>
 <div id="xm-bg" hidden><div class="xm-box" role="dialog" aria-modal="true" aria-label="Menu"><div class="xm-head"><b>Menu</b><button type="button" id="xm-close" aria-label="Close menu">&times;</button></div>
 <h4>Browse designs</h4>
@@ -762,7 +770,7 @@ document.getElementById('xm-cart').addEventListener('click',function(e){e.preven
 })();
 </script>
 <script>
-(function(){
+EJ_AFTER_DATA(function(){
 var N=12,q=document.getElementById('q'),grids=[];
 [].slice.call(document.querySelectorAll('.pgrid')).forEach(function(g){
   var f=[].slice.call(g.children).filter(function(e){return e.matches&&e.matches('figure.pv')});
@@ -785,7 +793,7 @@ function apply(){
 }
 if(q)q.addEventListener('input',apply);
 apply();
-})();
+});
 </script>
 <script>
 (function(){
@@ -794,6 +802,104 @@ var end=new Date(2026,11,20,23,59,59),gone=false;
 try{gone=sessionStorage.getItem('xb-off')==='1'}catch(e){}
 if(new Date()<=end&&!gone)b.hidden=false;
 document.getElementById('xb-x').addEventListener('click',function(){b.hidden=true;try{sessionStorage.setItem('xb-off','1')}catch(e){}});
+})();
+</script>
+<script>
+(function(){
+var C=window.EJ_CONFIG||{},finished=false,R=document.documentElement;
+function finish(){
+  if(finished)return;finished=true;window.EJ_DONE=true;
+  var q=window.EJ_Q||[];window.EJ_Q=[];
+  q.forEach(function(f){try{f()}catch(e){if(window.console)console.error(e)}});
+}
+function money(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+function wa(m){return 'https://wa.me/2349046803715?text='+encodeURIComponent(m)}
+var SECS={work:'#work',style:'#previews',vipcaps:'#vipcaps'};
+function fig(r){
+  var f=document.createElement('figure');f.className='pv';
+  var k=String(r.category||'').toLowerCase();f.setAttribute('data-k',k==='vip cap'?'vip cap caps':k);
+  var im=document.createElement('img');im.loading='lazy';im.decoding='async';im.src=r.image_url;im.alt=r.title;
+  im.addEventListener('click',function(){var lb=document.getElementById('lb');if(lb&&lb.showModal){var li=lb.querySelector('img');li.src=im.src;li.alt=im.alt;lb.showModal()}});
+  var c=document.createElement('figcaption'),h=document.createElement('h3');h.textContent=r.title;c.appendChild(h);
+  if(r.description){var p=document.createElement('p');p.textContent=r.description;c.appendChild(p)}
+  var pr=document.createElement('div');pr.className='pr';
+  pr.appendChild(document.createTextNode(r.price!=null?'from \u20a6'+money(r.price):'Ask for the price'));
+  var sm=document.createElement('small');sm.textContent=r.price!=null?'Message us for your best price.':'We reply with the price on WhatsApp.';pr.appendChild(sm);c.appendChild(pr);
+  var what=r.section==='vipcaps'?'this VIP cap':(r.section==='work'?'something like this':'this style');
+  var a=document.createElement('a');a.href=wa('Hello EJ Stitches, I would like '+what+': '+r.title+'. Please send me details.');a.textContent='Order on WhatsApp';c.appendChild(a);
+  f.appendChild(im);f.appendChild(c);return f;
+}
+function split(rows){var by={work:[],style:[],vipcaps:[]};rows.forEach(function(r){if(r.section==='clients')return;(by[r.section]||by.style).push(r)});return by}
+function clientFig(r){var f=document.createElement('figure');f.className='cl';var im=document.createElement('img');im.loading='lazy';im.decoding='async';im.src=r.image_url;im.alt=r.title;var c=document.createElement('figcaption');c.textContent=r.title;f.appendChild(im);f.appendChild(c);return f}
+function renderClients(list,replace){
+  var sec=document.getElementById('clients'),grid=sec&&sec.querySelector('.cgrid');if(!grid)return;
+  if(replace){[].slice.call(grid.querySelectorAll('figure.cl')).forEach(function(e){e.remove()});list.forEach(function(r){grid.appendChild(clientFig(r))});sec.classList.toggle('xs-empty',!list.length)}
+  else if(list.length){var first=grid.firstChild;list.forEach(function(r){grid.insertBefore(clientFig(r),first)});sec.classList.remove('xs-empty')}
+}
+function renderFull(rows){
+  var by=split(rows);
+  Object.keys(SECS).forEach(function(k){
+    var sec=document.querySelector(SECS[k]),grid=sec&&sec.querySelector('.pgrid');if(!grid)return;
+    [].slice.call(grid.querySelectorAll('figure.pv')).forEach(function(e){e.remove()});
+    by[k].forEach(function(r){grid.appendChild(fig(r))});
+    sec.classList.toggle('xs-empty',!by[k].length);
+  });
+}
+function renderMerge(rows){
+  var by=split(rows);
+  Object.keys(SECS).forEach(function(k){
+    var sec=document.querySelector(SECS[k]),grid=sec&&sec.querySelector('.pgrid');if(!grid||!by[k].length)return;
+    var first=grid.firstChild;by[k].forEach(function(r){grid.insertBefore(fig(r),first)});
+    sec.classList.remove('xs-empty');
+  });
+}
+function applyPrices(st){
+  var v={},any=false;
+  ['native','ankara','casual','streetwear'].forEach(function(k){var n=parseInt(st['price_'+k],10);if(!isNaN(n)&&n>=0){v[k]=n;any=true}});
+  if(!any)return;
+  [].slice.call(document.querySelectorAll('ul.prices li[data-pk]')).forEach(function(li){var k=li.getAttribute('data-pk'),b=li.querySelector('b');if(b&&v[k]!=null)b.textContent='from \u20a6'+money(v[k])});
+  [].slice.call(document.querySelectorAll('details')).forEach(function(d){
+    var s=d.querySelector('summary'),p=d.querySelector('p');
+    if(s&&p&&/does it cost/i.test(s.textContent)){
+      var g=function(k,def){return '\u20a6'+money(v[k]!=null?v[k]:def)},t=p.textContent;
+      p.textContent='Native wear starts from '+g('native',16000)+', Ankara from '+g('ankara',7000)+', casual wear from '+g('casual',6000)+' and streetwear from '+g('streetwear',16000)+'.'+t.slice(t.indexOf('.')+1);
+    }
+  });
+}
+function applyLook(st){
+  var L=null;try{L=localStorage}catch(e){}
+  function keep(k,v){try{L&&L.setItem(k,v)}catch(e){}}
+  if(st.theme==='light'||st.theme==='dark'){R.setAttribute('data-theme',st.theme);keep('ejtheme',st.theme)}
+  var ts={small:'0.9',normal:'1',large:'1.15'}[st.text_size];if(ts){R.style.setProperty('--ts',ts);keep('ejts',ts)}
+  if(st.animations==='on'||st.animations==='off'){var a=st.animations;if(a==='on'&&window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)a='off';R.setAttribute('data-anim',a);keep('ejan',a)}
+  if(st.layout==='pages'||st.layout==='scroll'){
+    keep('ejlay',st.layout);
+    if(R.getAttribute('data-layout')!==st.layout){R.setAttribute('data-layout',st.layout);try{route();if(st.layout==='pages')window.scrollTo(0,0);else spy()}catch(e){}}
+  }
+}
+function cached(){try{return JSON.parse(localStorage.getItem('ejs_site')||'null')}catch(e){return null}}
+if(!C.url||!C.key||C.url.indexOf('__')>-1||C.key.indexOf('__')>-1){finish();return}
+var base=C.url.replace(/\/$/,'');
+function get(path){
+  var ctrl=window.AbortController?new AbortController():null,t=ctrl?setTimeout(function(){ctrl.abort()},6000):null;
+  return fetch(base+path,{headers:{apikey:C.key},signal:ctrl?ctrl.signal:undefined}).then(function(r){if(t)clearTimeout(t);if(!r.ok)throw new Error('bad');return r.json()});
+}
+var pd=get('/rest/v1/designs?select=*&visible=eq.true&order=sort_order.asc,created_at.desc').catch(function(){return null});
+var ps=get('/rest/v1/site_settings?select=key,value').catch(function(){return null});
+Promise.all([pd,ps]).then(function(res){
+  var rows=res[0],st=null;
+  if(Array.isArray(res[1])){st={};res[1].forEach(function(x){st[x.key]=x.value});try{localStorage.setItem('ejs_site',JSON.stringify(st))}catch(e){}}
+  else st=cached();
+  st=st||{};
+  try{applyLook(st);applyPrices(st)}catch(e){}
+  if(Array.isArray(rows)){
+    var cl=rows.filter(function(r){return r.section==='clients'}),ds=rows.filter(function(r){return r.section!=='clients'});
+    if(st.imported==='1')renderFull(ds);
+    else if(ds.length)renderMerge(ds);
+    if(st.clients_imported==='1')renderClients(cl,true);
+    else if(cl.length)renderClients(cl,false);
+  }
+}).catch(function(){}).then(finish);
 })();
 </script>
 </body>
