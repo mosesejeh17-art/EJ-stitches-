@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e0c09">
+<title>404 | Page not found</title>
+<style>
+html,body{height:100%;margin:0}
+body{background:#0e0c09;color:#f3ead7;font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box}
+h1{font:500 72px Georgia,"Times New Roman",serif;color:#d9a93b;margin:0 0 6px}
+h2{font:500 24px Georgia,"Times New Roman",serif;margin:0 0 12px}
+p{color:#b3a68a;margin:0 0 26px}
+a{display:inline-block;padding:12px 26px;border:1px solid #d9a93b;border-radius:999px;color:#d9a93b;text-decoration:none}
+a:hover{background:#d9a93b;color:#1a1205}
+</style>
+</head>
+<body>
+<main>
+<h1>404</h1>
+<h2>Page not found</h2>
+<p>The page you are looking for does not exist.</p>
+<a id="home" href="/">Go to EJ Stitches</a>
+</main>
+<script>
+(function(){var h=location.hostname,seg=location.pathname.split('/')[1];
+if(/\.github\.io$/.test(h)&&seg)document.getElementById('home').href='/'+seg+'/'})();
+</script>
+</body>
+</html>
